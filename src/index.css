@@ -1,0 +1,169 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+
+@import url(./blocks/page/page.css);
+@import url(./blocks/page/__center/page__center.css);
+
+
+@import url(./blocks/header/header.css);
+@import url(./blocks/logo/logo.css);
+
+
+@import url(./blocks/profile/profile.css);
+@import url(./blocks/profile/__content/profile__content.css);
+@import url(./blocks/profile/__info/profile__info.css);
+@import url(./blocks/profile/__row/profile__row.css);
+@import url(./blocks/profile/__title/profile__title.css);
+@import url(./blocks/profile/__subtitle/profile__subtitle.css);
+@import url(./blocks/profile/__edit-btn/profile__edit-btn.css);
+@import url(./blocks/profile/__add-btn/profile__add-btn.css);
+@import url(./blocks/profile/__avatar/profile__avatar.css);
+
+
+@import url(./blocks/elements/elements.css);
+@import url(./blocks/element/element.css);
+@import url(./blocks/element/__pic/element__pic.css);
+@import url(./blocks/element/__desc/element__desc.css);
+@import url(./blocks/element/__title/element__title.css);
+@import url(./blocks/element/__like/element__like.css);
+
+
+@import url(./blocks/footer/__content/footer__content.css);
+@import url(./blocks/footer/footer.css);
+
+@import url(./blocks/popup/popup.css);
+@import url(./blocks/popup/_opened/popup_opened.css);
+@import url(./blocks/popup/__container/popup__container.css);
+@import url(./blocks/popup/__title/popup__title.css);
+@import url(./blocks/popup/__close/popup__close.css);
+@import url(./blocks/popup/__input/popup__input.css);
+@import url(./blocks/popup/__submit-btn/popup__submit-btn.css);
+
+
+
+@import url(./blocks/element/__like/_active/element__like_active.css);
+@import url(./blocks/element/__trash/element__trash.css);
+
+@import url(./blocks/popup/__photo/popup__photo.css);
+@import url(./blocks/popup/__photo-title/popup_photo-title.css);
+@import url(./blocks/popup/__container/_type/popup__container_type_image.css);
+@import url(./blocks/popup/_type/popup_type_image.css);
+
+
+@import url(./blocks/popup/__input/_type/popup__input_type_error.css);
+@import url(./blocks/popup/__input-error/popup__input-error.css);
+@import url(./blocks/popup/__input-error/_active/popup__input-error_active.css);
+@import url(./blocks/popup/__submit-btn/_inactive/popup__submit-btn_inactive.css);
+
+@import url(./blocks/popup/_type/popup_type_confirm.css);
+@import url(./blocks/popup/__container/_type/popup__container_type_confirm.css);
+@import url(./blocks/popup/__title/_type/popup__title_type_confirm.css);
+@import url(./blocks/popup/__submit-btn/_type/popup__submit-btn_type_confirm.css);
+
+@import url(./blocks/element/__sum-like/element__sum-like.css);
+@import url(./blocks/element/__like-group/element__like-group.css);
+@import url(./blocks/element/__trash/_hidden/element__trash_hidden.css);
+@import url(./blocks/element/__trash/_visible/element__trash_visible.css);
+
+@import url(./blocks/profile/__change-btn/profile__change-btn.css);
+@import url(./blocks/profile/__pic/profile__pic.css);
+@import url(./blocks/popup/__container/_type/popup__container_type_change-avatar.css);
+
+
+
+.entrance{
+  min-height: calc(100vh - 282px);
+  display: flex;
+  flex-direction: column;
+}
+
+.entrance__container{
+  padding-top: 60px;
+  width: 358px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.entrance__title{
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 1.2;
+    text-align: center;
+    color: #fff;
+    margin: 0;
+}
+
+.entrance__form{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+}
+
+
+
+.entrance__submit-btn{
+  background-color: #fff;
+  color: #000;
+  border: none;
+  height: 50px;
+  border-radius: 2px;
+  padding: 0;
+  margin: 46px 0 0;
+  font-style: inherit;
+  font-size: 18px;
+  line-height: 1.22;
+  text-align: center;
+  width: 100%;
+  transition: background-color .3s ease-in;
+  box-sizing: border-box;
+  margin-top: auto;
+
+}
+
+
+.entrance__submit-btn:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+  
+.entrance__submit-btn:focus {
+  outline: none;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
+}
+
+
+.entrance__input {
+    font-style: inherit;
+    color: #fff;
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 2px;
+    border-bottom: 2px solid #cccccc;
+    background-color: transparent;
+    min-height: 27px;
+    margin-top: 30px;
+    margin-bottom: 2px;
+    padding: 5px 2px;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+}
+
+.entrance__link{
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #fff;
+  margin-top: 15px;
+  text-decoration: none;
+  position: absolute;
+  bottom: -30px;
+  left: 20%;
+}
