@@ -16,7 +16,7 @@ import Register from './Register.js';
 import Login from './Login.js';
 import ProtectedRoute from "./ProtectedRoute.js";
 
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 
 
@@ -37,13 +37,16 @@ function App() {
 
 
   const[loggedIn, setLoggedIn] = React.useState(false);
+  const[email, setEmail] = React.useState('');
   
   function handleLoggedIn() {
-    console.log('d')
     setLoggedIn(true);
   }
 
   const history = useHistory();
+
+
+
 
 
 
@@ -71,6 +74,29 @@ function App() {
       })
   }, []);
     
+
+
+
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(token){
+      auth.checkToken(token)
+        .then(data => {
+          if(data){
+            console.log(data.data.email);
+            setEmail(data.data.email);
+            handleLoggedIn();
+            history.push('/');
+          }
+        })
+    }
+  }, [history]);
+    
+
+
+
+
 
   //---ОБРАБОТЧИКИ---
   function handleEditAvatarClick() {
@@ -188,7 +214,7 @@ function App() {
   // onRegister, onLogin и onSignOut
   // Эти обработчики переданы в соответствующие компоненты: Register.js, Login.js, Header.js.
 
-  function onRegister(password, email){
+  function handleRegister(password, email){
     auth.register(password, email)
       .then((res) => {
         if(res){ 
@@ -196,19 +222,30 @@ function App() {
         } else {
           console.log('error');
           //тут надо вызвать
+        }
       });
   }
 
-   function onLogin (password, email) {
-     auth.authorize(password, email)
+
+   function handleLogin (password, email) {
+     auth.login(password, email)
       .then(data =>{
         if(data.token){
+          setEmail(email);
           handleLoggedIn();
+          localStorage.setItem('token', data.token);
           history.push('/');
         }
       })
       .catch(err => console.log(err)); 
    }
+  
+  //  при нажатии на кнопку выхода происходит очистка хранилища, перенаправление на страницу входа и очистка стейта, отвечающего за состояние авторизации
+  function handleSignOut() {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    history.push('/sign-in');
+  }
 
 
 
@@ -217,7 +254,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
-      <Header />
+      <Header email={email} onSignOut={handleSignOut} />
 
       <Switch>
 
@@ -235,12 +272,12 @@ function App() {
         />
           
 
-        <Route  path="/sign-in">
-          <Login onLogin={onLogin}/>
+        <Route path="/sign-in">
+          <Login onLogin={handleLogin}/>
         </Route>
 
-        <Route  path="/sign-up">
-          <Register onRegister={onRegister}/>
+        <Route path="/sign-up">
+          <Register onRegister={handleRegister}/>
         </Route>
 
         <Route>

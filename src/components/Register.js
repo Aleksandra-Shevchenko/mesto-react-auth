@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 //--- Компонент регистрации пользователя ---
 function Register({ onRegister }) {
@@ -10,7 +10,6 @@ function Register({ onRegister }) {
   //---ОБРАБОТЧИКИ---
   function handleChangeEmail(e) {
     setEmail(e.target.value);
-    console.log(e.target.value);
   }
   
   function handleChangePassword(e) {
@@ -65,9 +64,3 @@ function Register({ onRegister }) {
 }
       
 export default Register;
-
-
-{/* <div className="register__signin">
-  <p>Already a member?</p>
-  <Link to="login" className="register__login-link">Log in here</Link>
-</div> */}

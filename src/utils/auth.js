@@ -12,23 +12,22 @@ export const register = (password, email) => {
         "email": email,
       })
     })
-    .then((response) => {
+    .then((res) => {
       try {
-        if (response.status === 200){
-          return response.json();
+        if (res.status === 200){
+          return res.json();
         }
-      } catch(e){
-        return (e)
+      } catch(err){
+        return (err)
       }
     })
     .then((res) => {
-      console.log(res);
       return res;
     })
     .catch((err) => console.log(err));
 }; 
 
-export const authorize = (password, email) => {
+export const login = (password, email) => {
     return fetch(`${BASE_URL}/signin`, {
       method: 'POST',
       headers: {
@@ -40,15 +39,27 @@ export const authorize = (password, email) => {
         "email": email,
       })
     })
-    .then((response => response.json()))
+    .then((res => res.json()))
     .then((data) => {
       if (data.token){
-        // console.log(data.token);
-        localStorage.setItem('token', data.token);
+        console.log(data);
         return data;
       } else {
         return;
       }
     })
     .catch(err => console.log(err))
-  };
+};
+
+export const checkToken = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+  })
+  .then(res => res.json())
+  .then(data => data)
+} 

@@ -9,7 +9,6 @@ function Login({ onLogin }) {
   //---ОБРАБОТЧИКИ---
   function handleChangeEmail(e) {
     setEmail(e.target.value);
-    console.log(e.target.value);
   }
   
   function handleChangePassword(e) {
