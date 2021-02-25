@@ -21,24 +21,23 @@ function Register({ onRegister }) {
     onRegister(password, email);
   }
   
+
   //---РАЗМЕТКА JSX---
   return (
-    <section className={`entrance page__center`} >
-      <div className={`entrance__container`}>
-        <h3 className={`entrance__title`}>Регистрация</h3>
-        <form className="entrance__form" name={`entrance-form-register`} noValidate
-        onSubmit={handleSubmit}
-        >
+    <section className='entrance page__center' >
+      <div className='entrance__container'>
+        <h3 className='entrance__title'>Регистрация</h3>
+        <form className='entrance__form' name='entrance-form-register' noValidate onSubmit={handleSubmit}>
           <input
             value={email}
             onChange={handleChangeEmail}
-            id="loggin-input"
-            type="email"
-            placeholder="Email"
-            className="entrance__input"
-            name="loggin"
-            minLength="2"
-            maxLength="40"
+            id='loggin-input'
+            type='email'
+            placeholder='Email'
+            className='entrance__input'
+            name='loggin'
+            minLength='2'
+            maxLength='40'
             required
           />
 
@@ -46,7 +45,7 @@ function Register({ onRegister }) {
             value={password}
             onChange={handleChangePassword}
             id="password-input"
-            type="text"
+            type="password"
             placeholder="Пароль"
             className="entrance__input"
             name="password"
@@ -55,8 +54,8 @@ function Register({ onRegister }) {
             required
           />
 
-          <button className={`entrance__submit-btn`} type="submit">Зарегистрироваться</button>
-          <Link to="sign-in" className='entrance__link'>Уже зарегестрированы? Войти</Link>
+          <button className='entrance__submit-btn' type="submit">Зарегистрироваться</button>
+          <Link to='sign-in' className='entrance__link'>Уже зарегестрированы? Войти</Link>
         </form>
       </div>
     </section>

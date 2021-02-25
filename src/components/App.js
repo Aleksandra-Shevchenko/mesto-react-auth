@@ -1,5 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import ProtectedRoute from "./ProtectedRoute.js";
+
 
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
@@ -14,41 +16,34 @@ import AddPlacePopup from './AddPlacePopup.js';
 import DeletePlacePopup from './DeletePlacePopup.js';
 import Register from './Register.js';
 import Login from './Login.js';
-import ProtectedRoute from "./ProtectedRoute.js";
+import InfoTooltip from './InfoTooltip.js';
 
 import * as auth from '../utils/auth.js';
 
 
 
 function App() {
+  const history = useHistory();
   const [currentUser, setCurrentUser] = React.useState({});
 
+  // состояния попапов
   const [isEditProfilePopupOpen, setEditProfileClick] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlaceClick] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarClick] = React.useState(false);
+  const [isInfoTooltip, setInfoTooltip] = React.useState({isOpen: false, successful: false});
 
+  // состояния карточек
   const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState({isOpen: false, element: {}});
   const [selectedCardDeleteConfirm, setSelectedCardDeleteConfirm] = React.useState({isOpen: false, card: {}});
 
+  // состояние обработки запроса
   const[renderSaving, setRenderSaving] = React.useState(false);
 
-
-
-
+  //состояния авторизации пользователя и его данных
   const[loggedIn, setLoggedIn] = React.useState(false);
   const[email, setEmail] = React.useState('');
   
-  function handleLoggedIn() {
-    setLoggedIn(true);
-  }
-
-  const history = useHistory();
-
-
-
-
-
 
 
   //---ЭФФЕКТЫ---
@@ -74,17 +69,13 @@ function App() {
       })
   }, []);
     
-
-
-
-
+  //при загрузке страницы проверяем токен и перенаправляем пользователя
   React.useEffect(() => {
     const token = localStorage.getItem('token');
     if(token){
       auth.checkToken(token)
         .then(data => {
           if(data){
-            console.log(data.data.email);
             setEmail(data.data.email);
             handleLoggedIn();
             history.push('/');
@@ -95,10 +86,11 @@ function App() {
     
 
 
-
-
-
   //---ОБРАБОТЧИКИ---
+  function handleLoggedIn() {
+    setLoggedIn(true);
+  }
+
   function handleEditAvatarClick() {
     setEditAvatarClick(true);
   }
@@ -119,12 +111,17 @@ function App() {
     setSelectedCardDeleteConfirm({...selectedCardDeleteConfirm, isOpen: true, card: card});
   }
 
+  function handleInfoTooltip(result) {
+    setInfoTooltip({...isInfoTooltip, isOpen: true, successful: result});
+  }
+
   function closeAllPopups() {
     setEditAvatarClick(false);
     setEditProfileClick(false);
     setAddPlaceClick(false);
     setSelectedCard({...selectedCard, isOpen: false});
     setSelectedCardDeleteConfirm({...selectedCardDeleteConfirm, isOpen: false});
+    setInfoTooltip(false);
   }
 
   function handleOverlayClickClose(evt) {
@@ -135,61 +132,47 @@ function App() {
   function handleUpdateUser(newUserData) {
     setRenderSaving(true);
     api.saveUserChanges(newUserData)
-      .then((data) => {
+      .then(data => {
         setCurrentUser(data);
         closeAllPopups();
       })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => {
-        setRenderSaving(false);
-      });
+      .catch(err => console.log(err))
+      .finally(() => setRenderSaving(false));
   }
 
   //изменение аватара пользователя
   function handleUpdateAvatar(newAvatarLink) {
     setRenderSaving(true);
     api.changedAvatar(newAvatarLink)
-      .then((data) => {
+      .then(data => {
         setCurrentUser({...currentUser, avatar: data.avatar});
         closeAllPopups();
       })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => {
-        setRenderSaving(false);
-      });
+      .catch(err => console.log(err))
+      .finally(() => setRenderSaving(false));
   }
 
   //добавление новой карточки
   function handleAddPlaceSubmit(cardData) {
     setRenderSaving(true);
     api.postNewCard(cardData)
-      .then((newCard) => {
+      .then(newCard => {
         setCards([newCard, ...cards]); 
         closeAllPopups();
       })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => {
-        setRenderSaving(false);
-      });
+      .catch(err => console.log(err))
+      .finally(() => setRenderSaving(false));
   }
 
   //постановка/снятие лайка
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
+      .then(newCard => {
         const newCards = cards.map((c) => c._id === card._id ? newCard : c);
         setCards(newCards);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => console.log(err));
   } 
 
   //удаление карточки
@@ -201,35 +184,29 @@ function App() {
         setCards(newCards);
         closeAllPopups();
       })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(() => {
-        setRenderSaving(false);
-      });
+      .catch(err => console.log(err))
+      .finally(() => setRenderSaving(false));
   } 
 
-
-
-  // onRegister, onLogin и onSignOut
-  // Эти обработчики переданы в соответствующие компоненты: Register.js, Login.js, Header.js.
-
+  //обработчик регистрации пользователя
   function handleRegister(password, email){
     auth.register(password, email)
-      .then((res) => {
-        if(res){ 
+      .then(data => {
+        if(data){
+          handleInfoTooltip(true);
           history.push('/sign-in');
-        } else {
-          console.log('error');
-          //тут надо вызвать
-        }
-      });
+        } 
+      })
+      .catch(err => {
+        console.log(err);
+        handleInfoTooltip(false);
+      })
   }
 
-
-   function handleLogin (password, email) {
-     auth.login(password, email)
-      .then(data =>{
+  //обработчик авторизации пользователя
+  function handleLogin (password, email) {
+    auth.login(password, email)
+      .then(data => {
         if(data.token){
           setEmail(email);
           handleLoggedIn();
@@ -237,16 +214,18 @@ function App() {
           history.push('/');
         }
       })
-      .catch(err => console.log(err)); 
-   }
+      .catch(err => {
+        handleInfoTooltip(false);
+        console.log(err);
+      })
+  }
   
-  //  при нажатии на кнопку выхода происходит очистка хранилища, перенаправление на страницу входа и очистка стейта, отвечающего за состояние авторизации
+  //обработчик выхода пользователя
   function handleSignOut() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     history.push('/sign-in');
   }
-
 
 
 
@@ -257,7 +236,6 @@ function App() {
       <Header email={email} onSignOut={handleSignOut} />
 
       <Switch>
-
         <ProtectedRoute
           exact path='/'
           loggedIn={loggedIn}
@@ -271,7 +249,6 @@ function App() {
           onDeletePlace={handleDeletePlaceClick}
         />
           
-
         <Route path="/sign-in">
           <Login onLogin={handleLogin}/>
         </Route>
@@ -287,10 +264,11 @@ function App() {
             <Redirect to="/sign-in" />
           )}
         </Route>
-
       </Switch>
 
       <Footer />
+
+      <InfoTooltip result={isInfoTooltip} onClose={closeAllPopups} onOverlayClose={handleOverlayClickClose}/>
 
       <ImagePopup card={selectedCard} onClose={closeAllPopups} onOverlayClose={handleOverlayClickClose} />
 

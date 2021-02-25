@@ -22,15 +22,20 @@ function Login({ onLogin }) {
     }
     onLogin(password, email);
   }
+
+  //---ЭФФЕКТЫ---
+  // React.useEffect(() => {
+  //   setEmail('');
+  //   setPassword('');
+  // }, [onLogin]); 
+    
   
   //---РАЗМЕТКА JSX---
   return (
-    <section className={`entrance page__center`} >
-      <div className={`entrance__container`}>
-        <h3 className={`entrance__title`}>Вход</h3>
-        <form className="entrance__form" name={`entrance-form-login`} noValidate
-        onSubmit={handleSubmit}
-        >
+    <section className='entrance page__center' >
+      <div className='entrance__container'>
+        <h3 className='entrance__title'>Вход</h3>
+        <form className='entrance__form' name='entrance-form-login' noValidate onSubmit={handleSubmit}>
           <input
             value={email}
             onChange={handleChangeEmail}
@@ -48,7 +53,7 @@ function Login({ onLogin }) {
             value={password}
             onChange={handleChangePassword}
             id="password-input"
-            type="text"
+            type="password"
             placeholder="Пароль"
             className="entrance__input"
             name="password"
@@ -57,7 +62,7 @@ function Login({ onLogin }) {
             required
           />
 
-          <button className={`entrance__submit-btn`} type="submit">Войти</button>
+          <button className='entrance__submit-btn' type="submit">Войти</button>
         </form>
       </div>
     </section>
