@@ -7,12 +7,17 @@
 
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__box/header__box.css);
+@import url(./blocks/header/__box/_small-menu/header__box_small-menu.css);
 @import url(./blocks/header/__link/header__link.css);
 @import url(./blocks/header/__button/header__button.css);
+@import url(./blocks/header/__menu-btn/header__menu-btn.css);
+@import url(./blocks/header/__menu-btn/_close/header__menu-btn_close.css);
 @import url(./blocks/header/__email/header__email.css);
 @import url(./blocks/header/__user-box/header__user-box.css);
+@import url(./blocks/header/__user-box/_small-menu/header__user-box_small-menu.css);
 
 @import url(./blocks/logo/logo.css);
+@import url(./blocks/logo/_small-menu/logo_small-menu.css);
 
 
 @import url(./blocks/profile/profile.css);
@@ -85,7 +90,4 @@
 @import url(./blocks/entrance/__link/entrance__link.css);
 @import url(./blocks/entrance/__submit-btn/entrance__submit-btn.css);
 @import url(./blocks/entrance/__title/entrance__title.css);
-
-
-
 

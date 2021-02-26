@@ -224,6 +224,7 @@ function App() {
   function handleSignOut() {
     localStorage.removeItem('token');
     setLoggedIn(false);
+    setEmail('');
     history.push('/sign-in');
   }
 
